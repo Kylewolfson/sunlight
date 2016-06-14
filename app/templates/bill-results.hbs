@@ -1,6 +1,7 @@
 <ul>
   {{#each model as |bill|}}
     <li> {{bill.official_title}} <br>
-      {{chamber-upcase chamber=bill.chamber}}</li>
+      {{chamber-upcase chamber=bill.chamber}}
+      {{bill.state_rep}}</li>
   {{/each}}
 </ul>
