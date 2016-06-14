@@ -20,29 +20,26 @@ export default Ember.Route.extend({
     //     console.log(bills);
     //   });
     // });
-
-
-
     var billStorage;
-      return Ember.$.getJSON(url).then(function(responseJSON) {
-        billStorage = responseJSON.results;
-        var j = 0;
-        for (var i = 0; i < responseJSON.results.length; i++) {
+    return Ember.$.getJSON(url).then(function(responseJSON) {
+      billStorage = responseJSON.results;
+      var j = 0;
+      for (var i = 0; i < responseJSON.results.length; i++) {
         var legislatorURL = 'http://congress.api.sunlightfoundation.com/legislators?bioguide_id='+ responseJSON.results[i].sponsor_id + '&apikey=' + key;
 
         if (i < responseJSON.results.length - 1){
           Ember.$.getJSON(legislatorURL).then(function(responseJSON) {
             billStorage[j].state_rep = responseJSON.results[0].state_name;
             j++;
-        })
-      } else {
-        return Ember.$.getJSON(legislatorURL).then(function(responseJSON) {
-          billStorage[j].state_rep = responseJSON.results[0].state_name;
-          j++;
-          return billStorage;
-        });
+          })
+        } else {
+          return Ember.$.getJSON(legislatorURL).then(function(responseJSON) {
+            billStorage[j].state_rep = responseJSON.results[0].state_name;
+            j++;
+            return billStorage;
+          });
+        }
       }
+    });
   }
-});
-}
 });
